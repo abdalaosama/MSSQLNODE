@@ -1,0 +1,5 @@
+1 - Make sure you have Nodejs installed
+2 - install all the modules needed by running the following command in the current directory
+    npm install
+3 - to run the app run the following command in the current directory
+    npm run start

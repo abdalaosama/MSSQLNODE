@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdullah Osama - MSSQL CLIENT TEST</title>
+</head>
+<body>
+    <form action="/connect" method="POST" id="input">
+       username<br> <input type="text" name="user"><br>
+       Password <br><input type="text" name="password"><br>
+       Server<br> <input type="text" name="server"><br>
+       port<br> <input type="text" name="port"><br>
+       database Name<br> <input type="text" name="database"><br>
+       SQL Query<br> <textarea type="text" name="sql" cols="20" rows="20"></textarea><br>
+        <button id="sbmt">Submit</button>
+    </form>
+    <div id="output">
+        Nothing Yet .. specify the parameters then press submit
+    </div>
+</body>
+<style>
+
+    body{
+        padding: 10px;
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    form{
+        text-align: left;
+    }
+    form input{
+        margin: 10px;
+        padding: 5px;
+        width: 50%;
+    }
+    form textarea{
+        margin: 10px;
+        padding: 5px;
+        width: 50%;
+
+    }
+    form button{
+        width: 200px;
+        height: 50px;
+        margin: 10px;
+        cursor: pointer;
+    }
+
+
+</style>
+<script src="jquery.js"></script>
+<script>
+$('#input').submit(function(e) {
+   e.preventDefault();
+   $.ajax({
+        type: 'POST',
+        url: '/connect',
+        data: $(this).serialize(),
+        complete: function(data){
+
+            console.log(data.responseJSON)
+            $("#output").html(data.responseText)
+        }//do something for example if the request response is success play your animation...
+   });
+
+})
+    
+</script>
+</html>
