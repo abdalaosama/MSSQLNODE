@@ -1,5 +1,5 @@
 const express = require("express")
-const sql = require('mssql/msnodesqlv8')
+const sql = require('mssql')
 
 const app = express()
 app.use(express.static('static'))
@@ -17,8 +17,8 @@ app.post('/connect', (req, res) => {
             database: data.database,
             port: parseInt( data.port ),
             options: {
-                encrypt: true, // for azure
-                trustServerCertificate: false // change to true for local dev / self-signed certs
+                encrypt: false, // for azure
+                trustServerCertificate: true // change to true for local dev / self-signed certs
               }
         };
         try{
