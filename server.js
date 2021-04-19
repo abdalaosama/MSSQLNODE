@@ -1,5 +1,5 @@
 const express = require("express")
-const sql = require('mssql')
+const sql = require('mssql/msnodesqlv8')
 
 const app = express()
 app.use(express.static('static'))
@@ -15,11 +15,18 @@ app.post('/connect', (req, res) => {
             password: data.password,
             server: data.server,
             database: data.database,
-            port:data.port
+            port: parseInt( data.port ),
+            options: {
+                encrypt: true, // for azure
+                trustServerCertificate: false // change to true for local dev / self-signed certs
+              }
         };
         try{
         new sql.ConnectionPool(config,function (err, conn) {
-            if(err) res.status(404).send(err)
+            if(err) {
+                console.log(err)
+                res.status(404).send(err)
+            }
             else{
             new sql.Request(conn).query(data.sql,function (err,recordset) {
                 if(err) res.status(404).send(err)
@@ -31,6 +38,8 @@ app.post('/connect', (req, res) => {
             }
         });
     }catch(e){
+
+        console.log(e)
         res.status(500).send("Sorry, Server Error")
     }
     })
